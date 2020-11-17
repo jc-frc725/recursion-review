@@ -4,7 +4,6 @@
 // but you don't so you're going to write it from scratch:
 
 var stringifyJSON = function(obj) {
-  // some code here - justin
   // your code goes here
 
   //create result var
@@ -21,7 +20,6 @@ var stringifyJSON = function(obj) {
   }
 
   if (Array.isArray(obj)) {
-    console.log('current obj: ' + JSON.stringify(obj));
     var array = '';
     array += '[';
 
@@ -38,16 +36,23 @@ var stringifyJSON = function(obj) {
     result += array;
   }
 
-if (!Array.isArray(obj) && typeof obj === 'object' && typeof obj !== null) {
+  if (!Array.isArray(obj) && typeof obj === 'object' && obj !== null) {
+    var object = '';
+    object += '{';
 
-}
+    // iterate thru obj
+    for (var key in obj) {
+      if (typeof obj[key] !== 'function' && obj[key] !== undefined) {
+        object += stringifyJSON(key) + ':' + stringifyJSON(obj[key]) + ',';
+      }
+    }
+    // if (Object.keys(obj).length !== 0) {
+    if (object !== '{') {
+      object = object.slice(0, object.length - 1);
+    }
 
+    object += '}';
+    result += object;
+  }
   return result;
 };
-
-// console.log(JSON.stringify({1: 5, 6: null}))
-// console.log(JSON.stringify(undefined))
-// console.log(JSON.stringify([1, 2, true, null, 'string']));
-
-// console.log('our function:');
-console.log(stringifyJSON([8, [[], 3, 4]]));
